@@ -1,6 +1,7 @@
 import fresh_tomatoes
 
 
+# Create a simple movie object to structure movie's info
 class MovieObj():
 
     def __init__(self, title, poster_url, youtube_url):
@@ -8,23 +9,23 @@ class MovieObj():
         self.poster_image_url = poster_url
         self.trailer_youtube_url = youtube_url
 
-# Create a list of My Movies and store them in a list
+# Create a list for My Movies
 myMovies = []
 
-myMovies.append(MovieObj(
-    "Interstellar",
-    "http://ia.media-imdb.com/images/M/MV5BMjIxNTU4MzY4MF5BMl5BanBnXkFtZTgwMzM4ODI3MjE@._V1_SX640_SY720_.jpg",
-    "https://www.youtube.com/watch?v=0vxOhd4qlnA"
-))
-myMovies.append(MovieObj(
-    "Gravity",
-    "http://ia.media-imdb.com/images/M/MV5BNjE5MzYwMzYxMF5BMl5BanBnXkFtZTcwOTk4MTk0OQ@@._V1_SX640_SY720_.jpg",
-    "https://www.youtube.com/watch?v=OiTiKOy59o4"
-))
-myMovies.append(MovieObj(
-    "The Martian",
-    "http://ia.media-imdb.com/images/M/MV5BMTc2MTQ3MDA1Nl5BMl5BanBnXkFtZTgwODA3OTI4NjE@._V1_SX640_SY720_.jpg",
-    "https://www.youtube.com/watch?v=ej3ioOneTy8"
-))
+# Open moviesDB.csv file where Movies Info is stored:
+movies_database = open('moviesDB.csv', 'r').readlines()
+
+# Iterate through the csv file, ignore 1st line;
+for i in range(1, len(movies_database)):
+    # Create a list out of each line containing [Movie Title, Movie Poster Image, Movie Youtube Trailer Video]
+    movieInfo = movies_database[i].split(';')
+    try:
+        myMovies.append(MovieObj(
+            movieInfo[0],
+            movieInfo[1],
+            movieInfo[2],
+        ))
+    except IndexError:
+        break
 
 fresh_tomatoes.open_movies_page(myMovies)
